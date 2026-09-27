@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LabDocs.Tests/LabDocs.Tests.csproj" />
+  <Project Path="LabDocs/LabDocs.csproj" />
+</Solution>

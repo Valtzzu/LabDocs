@@ -1,0 +1,46 @@
+@model WikiNavNode
+
+@if (Model.Name != "root")
+{
+    <div class="wiki-nav-group-title">
+        @WikiTitleFormatter.FormatSegment(Model.Name)
+    </div>
+}
+
+@{
+    string currentSlug = string.Empty;
+    object? routeSlug = Context.Request.RouteValues["slug"];
+
+    if (routeSlug is not null)
+    {
+        string? routeSlugText = routeSlug.ToString();
+
+        if (routeSlugText is not null)
+        {
+            currentSlug = routeSlugText;
+        }
+    }
+}
+
+    @foreach (var navigationPage in Model.Pages)
+    {
+        bool isActive = string.Equals(currentSlug, navigationPage.Slug, StringComparison.Ordinal);
+
+        if (isActive)
+        {
+            <a class="wiki-nav-link active" href="/docs/@navigationPage.Slug" aria-current="page">
+                @navigationPage.Title
+            </a>
+        }
+        else
+        {
+            <a class="wiki-nav-link" href="/docs/@navigationPage.Slug">
+                @navigationPage.Title
+            </a>
+        }
+    }
+
+    @foreach (var childNode in Model.Children)
+    {
+        <partial name="Components/WikiNav/_NavNode" model="childNode" />
+    }

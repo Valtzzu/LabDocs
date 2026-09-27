@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+@using System.Reflection
+@{
+    AssemblyInformationalVersionAttribute? versionAttribute =
+        typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+
+    string applicationVersion = versionAttribute?.InformationalVersion ?? "unknown";
+    int metadataSeparatorIndex = applicationVersion.IndexOf('+');
+
+    if (metadataSeparatorIndex >= 0)
+    {
+        applicationVersion = applicationVersion.Substring(0, metadataSeparatorIndex);
+    }
+}
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LabDocs</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="wiki-sidebar">
+            <div class="sidebar-header">
+                <a class="sidebar-brand" asp-area="" asp-page="/Index">LabDocs</a>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Wiki navigation">
+                @await Component.InvokeAsync("WikiNav")
+            </nav>
+
+            <div class="sidebar-footer">
+                <span>LabDocs v@(applicationVersion)</span>
+            </div>
+        </aside>
+
+        <div class="wiki-page">
+            <main role="main" class="wiki-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>

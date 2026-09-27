@@ -1,0 +1,6 @@
+
+@page "/docs/{**slug}"
+@model WikiModel
+
+@* HtmlContent is sanitized by WikiPageService before reaching this rendering boundary. *@
+@Html.Raw(Model.HtmlContent)
